@@ -1,5 +1,5 @@
 # mudi
-### Mudi Crud de cadastro de pedidos e ofertas
+### CRUD de cadastro de pedidos e ofertas
 
 
 
