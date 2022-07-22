@@ -34,6 +34,7 @@ public class PedidoController {
 	@PostMapping("novo")
 	public String novo(@Valid RequisicaoNovoPedido requisicao, BindingResult result	) {
 		if (result.hasErrors()) {
+			System.out.println(result);
 			return "pedido/formulario";
 		}
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();

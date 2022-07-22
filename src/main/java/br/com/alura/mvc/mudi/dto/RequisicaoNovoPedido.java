@@ -8,7 +8,8 @@ import br.com.alura.mvc.mudi.model.Pedido;
 import br.com.alura.mvc.mudi.model.StatusPedido;
 
 public class RequisicaoNovoPedido {
-	@NotBlank @Min(5) @Max(20)
+	// @Min(5) @Max(20)
+	@NotBlank
 	private String nomeProduto;
 	@NotBlank
 	private String urlProduto;
