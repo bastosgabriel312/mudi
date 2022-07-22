@@ -43,10 +43,10 @@
 						<div class="col-12 col-sm-4 col-md">
 							<div class="row">
 								<div class="col-md-5">
-									Valor: <span v-if="pedido.valorNegociado !== null" >{{pedido.valorNegociado}}</span>
+									Valor: <span v-if="pedido.valorNegociado !== null" >R$ {{formatNumberToReal(pedido.valorNegociado)}}</span>
 								</div>
 								<div class="col-md-7">
-									Data da entrega:<span >{{ new Date(pedido.dataDaEntrega) + '' + pedido.dataDaEntrega }}</span>
+									Data da entrega:<span v-if="pedido.dataDaEntrega | moment !== 'Invalid date'" >{{ pedido.dataDaEntrega | moment}}</span>
 								</div>
 							</div>
 
@@ -72,7 +72,9 @@
 			</div>
 		</div>
 		<script>
+			
 			function onLoad(){
+				
 				var app = new Vue({	
 					  el: '#pedidos',
 					  data: {
@@ -121,10 +123,22 @@
 								this.mudarPagina(this._data.paginas.number-1)
 							}
 						},
-						frontEndDateFormat: function(date) {
-        				return moment(date, '[YYYYMM,DD]').format('DD/MM/YYYY');
-        			},
+						moment: function (date) {
+							myDate = (date,'[ YYYY, MM, DD ]').toDate();
+							return moment(myDate);
+						},
+						formatNumberToReal (num) {
+    						return parseFloat(num).toFixed(2).replace('.',',')
+  						}
 
+					},
+					filters: {
+						moment: function (date) {
+							if (moment(date).format("DD/MM/YYYY") !== 'Invalid date'){
+								return moment(date).format("DD/MM/YYYY");
+							}
+							return "";
+						}
 					}
 				});
 
@@ -133,6 +147,7 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://unpkg.com/v-switch-case@1.0.2/dist/v-switch.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 	</body>
 </html>
