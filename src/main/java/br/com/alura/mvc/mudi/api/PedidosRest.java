@@ -53,4 +53,15 @@ public class PedidosRest {
 		}
 	}
 
+	@GetMapping("{idPedido}")
+	public ResponseEntity<Object> getOfertasDePedido(@PathVariable("idPedido") String idPedido, Principal principal) {
+		try {
+			Long idPedidoToLong = Long.parseLong(idPedido);
+			Pedido pedido = pedidoRepository.findByIdAndUsuario(idPedidoToLong, principal.getName().toUpperCase());
+			return ResponseHandler.generateResponse("Success", HttpStatus.OK, pedido);
+		} catch (Exception e) {
+			return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+		}
+	}
+
 }

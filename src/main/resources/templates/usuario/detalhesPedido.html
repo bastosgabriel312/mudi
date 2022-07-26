@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head('Detalhes do Pedido')}"></head>
+	<body onload="onLoad()">
+		<div th:replace="~{base :: logo}"></div>
+		<div class="container" id="detalhesDoPedido">
+			<div th:replace="~{base :: titulo('Detalhes do Pedido')}"></div>
+			
+				
+			<!-- Container com grid 1x2 1 linha 2 colunas-->
+			<div class="container shadow-lg ">
+				<div class="row mb-5">
+					<div class="col">
+						<div class="card-body">
+							<img :src="pedido.urlImagem" style="height:40vmin;width:40vmin;;"class="img" alt="Imagem responsiva">
+							<h2 class="title mt-4">{{pedido.nomeProduto}}</h2>
+							<p class="card-text"> {{pedido.descricao}}</small></p>
+						</div> 
+					</div>
+					<div class="col"  >
+						<div class="card-body">
+							<div class="container overflow-auto" style="height:25vmax">
+								<h3 class="title">Ofertas:</h3>
+								<div class="card mb-3 " v-for="oferta in pedido.ofertas" >
+									<div class="card-header alert-dark">{{oferta.nomeProduto}}</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-4 col-md">
+												<div class="row">
+													<div class="col-md-5">
+														Valor: <span v-if="oferta.valor !== null" >R$ {{formatNumberToReal(oferta.valor)}}</span>
+													</div>
+													<div class="col-md-7">
+														Data da entrega:<span v-if="oferta.dataDaEntrega | moment !== 'Invalid date'" >{{ oferta.dataDaEntrega | moment}}</span>
+													</div>
+												</div>
+												<div>Descrição da oferta:</div>
+												<div>
+													<textarea class="form-control" :value="oferta.comentario">
+														descrição da oferta
+													</textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			
+			function onLoad(){
+				
+				var app = new Vue({	
+					  el: '#detalhesDoPedido',
+					  data: {
+					    pedido: [],
+					  },
+					  mounted () {
+						let pedidoId = window.location.pathname.split('/')[4];
+						console.log('http://localhost:8080/api/pedidos/'+pedidoId);
+						    axios
+						      .get('http://localhost:8080/api/pedidos/'+pedidoId)
+						      .then(response =>{
+								console.log(response.data);
+						    	this.pedido = response.data.data;
+						      })
+						      },
+					methods: {
+						moment: function (date) {
+							myDate = (date,'[ YYYY, MM, DD ]').toDate();
+							return moment(myDate);
+						},
+						formatNumberToReal (num) {
+    						return parseFloat(num).toFixed(2).replace('.',',')
+  						}
+
+					},
+					filters: {
+						moment: function (date) {
+							if (moment(date).format("DD/MM/YYYY") !== 'Invalid date'){
+								return moment(date).format("DD/MM/YYYY");
+							}
+							return "";
+						}
+					}
+				});
+
+			}
+		</script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/v-switch-case@1.0.2/dist/v-switch.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+	</body>
+</html>

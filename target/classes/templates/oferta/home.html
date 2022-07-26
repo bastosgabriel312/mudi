@@ -141,8 +141,7 @@
 						      	
 						      	.then(response => pedido.ofertaEnviada = true)
 							  .catch(error => {
-								  console.log(error)
-								  error.response.data.data.errors.forEach(error=> {
+								  error.response.data.errors.forEach(error=> {
 									  console.log(error);
 									  pedido.errors[error.field] = error.defaultMessage;
 									  })

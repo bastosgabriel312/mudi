@@ -32,7 +32,12 @@ public class UsuarioController {
 		ModelAndView mv = new ModelAndView("usuario/home");
 		return mv;
 	}
-
+	
+	@GetMapping("pedido/detalhes/{idPedido}")
+	public ModelAndView ofertasDoPedido(@PathVariable("idPedido") String idPedido, Principal principal) {
+		ModelAndView mv = new ModelAndView("usuario/detalhesPedido");
+		return mv;
+	}
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String onError() {
 		return "redirect:/usuario/home";
