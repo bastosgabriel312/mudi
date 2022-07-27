@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Table(name="users")
 @Entity
 public class User {
@@ -30,13 +32,19 @@ public class User {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 	}
 	public Boolean getEnabled() {
 		return enabled;
 	}
 	public void setEnabled(Boolean enable) {
 		this.enabled = enable;
+	}
+	
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", password=" + password + ", enabled=" + enabled + ", pedidos=" + pedidos
+				+ "]";
 	}
 	
 }

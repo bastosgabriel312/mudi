@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="~{base :: head('Ultimos pedidos')}"></head>
+<head th:replace="~{base :: head('Home')}"></head>
 	<body>
 		<div th:replace="~{base :: logo}"></div>
 		<div class="container">
-			<div th:replace="~{base :: titulo('Ultimos Pedidos')}"></div>
+			<div th:replace="~{base :: titulo('Home')}"></div>
 				
 			<div class="card mb-3" th:each="pedido: ${pedidos}">
 				<th:block th:switch="${pedido.status.name()}">
