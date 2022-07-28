@@ -25,6 +25,23 @@ public class PedidosRest {
 	@Autowired
 	private PedidoRepository pedidoRepository;
 
+
+	@GetMapping("aguardandoOfertas/{pagina}")
+	public ResponseEntity<Object> getPedidosAguardandoOfertas(String status,
+			@PathVariable("pagina") String pagina, Principal principal) {
+		try {
+			Sort sort = Sort.by("id").descending();
+			Integer paginaEscolhida = Integer.parseInt(pagina);
+			PageRequest page = PageRequest.of(paginaEscolhida, 5, sort);
+			Page<Pedido> pedidos = pedidoRepository.findByStatusUserDiff(principal.getName(),StatusPedido.AGUARDANDO,
+					page);
+			return ResponseHandler.generateResponse("Success", HttpStatus.OK, pedidos);
+		} catch (Exception e) {
+			return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+		}
+	}
+	
+	
 	@GetMapping("{status}/{pagina}")
 	public ResponseEntity<Object> getPedidosStatusDinamico(@PathVariable("status") String status,
 			@PathVariable("pagina") String pagina, Principal principal) {

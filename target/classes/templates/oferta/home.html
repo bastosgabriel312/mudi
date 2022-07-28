@@ -84,7 +84,7 @@
 					  mounted () {
 						let pagina = 0;
 						    axios
-						      .get("http://localhost:8080/api/pedidos/aguardando/"+pagina)
+						      .get("http://localhost:8080/api/pedidos/aguardandoOfertas/"+pagina)
 						      .then(response =>{
 						      	response.data.data.content.forEach(pedido=>{
 						      		pedido.ofertaEnviada = false;
@@ -101,7 +101,7 @@
 						mudarPagina(pagina){
 							let pedidoStatus = window.location.pathname.split('/')[3];
 							axios
-						      .get('http://localhost:8080/api/pedidos/aguardando/'+pagina)
+						      .get('http://localhost:8080/api/pedidos/aguardandoOfertas/'+pagina)
 						      .then(response =>{
 								response.data.data.content.forEach(pedido=>{
 						      		pedido.ofertaEnviada = false;
