@@ -2,6 +2,9 @@ package br.com.alura.mvc.mudi.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import br.com.alura.mvc.mudi.model.Authority;
 import br.com.alura.mvc.mudi.model.User;
 
 public class RequisicaoNovoUser {
@@ -25,7 +28,7 @@ public class RequisicaoNovoUser {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);;
 	}
 
 	public String getEnabled() {
@@ -41,6 +44,7 @@ public class RequisicaoNovoUser {
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setEnabled(true);
+		user.addAuthority(new Authority("USER"));
 		return user;
 	}
 
